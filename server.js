@@ -15,9 +15,9 @@ app.use('/users', userRoutes)
 
 
 //routes
-// app.get('/',(req,res)=>{
-// res.send('hello from my first server ever')
-// })
+app.get('/',(req,res)=>{
+res.send('hello from my first server ever')
+})
 
 app.get('/home',(req,res)=>{
 res.sendFile(__dirname+'/public/home.html')

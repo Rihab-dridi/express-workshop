@@ -1,7 +1,7 @@
 const express=require('express')
 const { get } = require('http')
 const router = express.Router()
-const users=require('../data')
+let users=require('../data')
 
 //@role:testing
 //@url:http://localhost:5000/users/test
@@ -32,17 +32,35 @@ res.json({msg:'the user is added successfully', users})
 })
 
 //@role:edit a specific user 
-//@url:http://localhost:5000/users/edit/:id
+//@url:http://localhost:5000/users/edit/:idt
 //@public/private
 
 router.put('/edit/:idt',(req,res)=>{
 
 const id= req.params.idt
 let userToEdit= users.find(user=>user.id==id)
+const editedUser={...userToEdit, ...req.body }
+
+if(!userToEdit){ return res.json({msg:'the user is not found '})}
+
+users=users.map((user=>user.id==id? editedUser:user ))
+
+res.json({msg:`the user ${userToEdit.name} has been edited`,users })
+})
+
+//@role:delete a specific user 
+//@url:http://localhost:5000/users/delete/:id
+//@public/private
+
+router.delete('/delete/:id',(req,res)=>{
+
+    const id=req.params.id
+
+    users=users.filter(user=>user.id!=id)
+    res.json({msg:`the userr has been deleted`,users})
+
 
 
 })
-
-
 
 module.exports=router
